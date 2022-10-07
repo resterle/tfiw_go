@@ -17,8 +17,8 @@ func TestCreateWithDefaultPlayer(t *testing.T) {
 
 	stubbed_id = "id"
 	if actual, ok := CreateWithDefaultPlayer(); testTrue(t, ok) {
-		assertId(t, actual, stubbed_id)
-		assertPlayer1(t, actual, expectedDefaultPlayer1)
+		assertId(t, *actual, stubbed_id)
+		assertPlayer1(t, *actual, expectedDefaultPlayer1)
 		assertPlayer2(t, actual, "")
 	}
 }
@@ -30,8 +30,8 @@ func TestCreateWithPlayer(t *testing.T) {
 
 	stubbed_id = "id"
 	if actual, ok := CreateWithPlayer(expectedPlayer1); testTrue(t, ok) {
-		assertId(t, actual, stubbed_id)
-		assertPlayer1(t, actual, expectedPlayer1)
+		assertId(t, *actual, stubbed_id)
+		assertPlayer1(t, *actual, expectedPlayer1)
 		assertPlayer2(t, actual, "")
 	}
 }
@@ -84,7 +84,7 @@ func TestUpdate(t *testing.T) {
 
 	// Put should save a copy and therefore not change the supplied game
 	game.Status = givenStatus
-	actual, _ := Get(game.id)
+	actual, _ := Get(game.Id)
 	if actualStatus := actual.Status; actualStatus != "created" {
 		t.Errorf("expected status to be \"created\" but it was %s", actualStatus)
 	}
@@ -92,7 +92,7 @@ func TestUpdate(t *testing.T) {
 	// A put with the same game should update it
 	if ok := Put(*game); testTrue(t, ok) {
 		assertNumberOfGames(t, 1)
-		actual, _ := Get(game.id)
+		actual, _ := Get(game.Id)
 		if actualStatus := actual.Status; actualStatus != "updated" {
 			t.Errorf("expected status to be \"updated\" but it was %s", actualStatus)
 		}
@@ -141,20 +141,20 @@ func assertNumberOfGames(t *testing.T, expected int) {
 	}
 }
 
-func assertId(t *testing.T, game *Game, expected string) {
-	if actual := game.id; actual != expected {
+func assertId(t *testing.T, game Game, expected string) {
+	if actual := game.Id; actual != expected {
 		t.Errorf("assert id: got %s, wanted %s", actual, expected)
 	}
 }
 
-func assertPlayer1(t *testing.T, game *Game, expected string) {
-	if actual := game.players[0]; actual != expected {
+func assertPlayer1(t *testing.T, game Game, expected string) {
+	if actual := game.Players[0]; actual != expected {
 		t.Errorf("assert player 1: got %s, wanted %s", actual, expected)
 	}
 }
 
 func assertPlayer2(t *testing.T, game *Game, expected string) {
-	if actual := game.players[1]; actual != expected {
+	if actual := game.Players[1]; actual != expected {
 		t.Errorf("assert player 2: got %s, wanted %s", actual, expected)
 	}
 }

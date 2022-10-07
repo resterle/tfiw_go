@@ -1,8 +1,8 @@
 package game
 
-func Get(id string) (*Game, bool) {
+func Get(id string) (Game, bool) {
 	res, ok := games[id]
-	return &res, ok
+	return res, ok
 }
 
 func Put(game Game) bool {

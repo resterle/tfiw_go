@@ -1,7 +1,9 @@
 package game
 
 import (
-	"github.com/resterle/tfiw_go/core"
+	"errors"
+
+	"github.com/resterle/tfiw_go/internal/core"
 )
 
 type Game struct {
@@ -33,19 +35,43 @@ func CreateWithDefaultPlayer() (*Game, bool) {
 	return CreateWithPlayer("Player 1")
 }
 
-func (g *Game) JoinWithPlayer(player string) {
+func (g Game) JoinWithPlayer(player string) Game {
 	g.Players[1] = player
 	g.Status = "ready"
+	return g
 }
 
-func (g *Game) JoinWithDefaultPlayer() {
-	g.JoinWithPlayer("Player 2")
+func (g Game) JoinWithDefaultPlayer() Game {
+	return g.JoinWithPlayer("Player 2")
 }
 
-func (g *Game) GetPlayer1() string {
+func (g Game) GetPlayer1() string {
 	return g.Players[0]
 }
 
-func (g *Game) GetPlayer2() string {
+func (g Game) GetPlayer2() string {
 	return g.Players[1]
+}
+
+func (g Game) SetPlayer1(p string) Game {
+	g.Players[0] = p
+	return g
+}
+
+func (g Game) SetPlayer2(p string) Game {
+	g.Players[1] = p
+	return g
+}
+
+func (g Game) Start() (Game, error) {
+	if g.GetPlayer1() == "" || g.GetPlayer2() == "" {
+		err := errors.New("players not joined")
+		return g, err
+	}
+	if g.Status != "created" {
+		err := errors.New("transition not allowed")
+		return g, err
+	}
+	g.Status = "ready"
+	return g, nil
 }

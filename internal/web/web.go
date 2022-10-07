@@ -15,7 +15,8 @@ func initGin() *gin.Engine {
 }
 
 func setupRouter(r *gin.Engine) {
-	r.POST("/game", postGameController)
-	r.GET("/game/:id", getGameController)
-	r.GET("/games", getGamesContoller)
+	r.POST("/game", CreateGame)
+	r.GET("/game/:sid", GetGame)
+	r.POST("/game/:sid", ChangeGame)
+	r.GET("/games", GetGames)
 }
