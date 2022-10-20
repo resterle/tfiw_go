@@ -2,11 +2,16 @@ package web
 
 import (
 	"github.com/gin-gonic/gin"
+	"go.uber.org/fx"
 )
 
-func Run() {
-	g := initGin()
-	setupRouter(g)
+var Module = fx.Options(
+	fx.Provide(initGin),
+	fx.Invoke(setupRouter),
+	fx.Invoke(startup),
+)
+
+func startup(g *gin.Engine) {
 	g.Run(":8080")
 }
 

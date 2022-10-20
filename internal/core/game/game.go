@@ -7,9 +7,10 @@ import (
 )
 
 type Game struct {
-	Id      string    `json:"id"`
-	Status  string    `json:"status"`
-	Players [2]string `json:"players"`
+	Id         string       `json:"id"`
+	Status     string       `json:"status"`
+	Players    [2]string    `json:"players"`
+	GameSheets [2]GameSheet `json:"game_sheets"`
 }
 
 var idGenerator func() string = core.RandomId
