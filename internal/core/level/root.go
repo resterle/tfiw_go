@@ -1,11 +1,5 @@
 package level
 
-import (
-	"fmt"
-
-	"github.com/resterle/tfiw_go/internal/core/game"
-)
-
 type Coordinate struct {
 	X int
 	Y int
@@ -15,6 +9,7 @@ type Cave struct {
 	Id       int
 	Position Coordinate
 	Points   int
+	Fields   []Field
 }
 
 type Field struct {
@@ -27,7 +22,7 @@ type Field struct {
 }
 
 type Level struct {
-	Fields     []Field
+	Caves      []Cave
 	Hourglass  bool
 	FinalTurns int
 }
@@ -58,16 +53,16 @@ func (f Field) AddTunnel(n *Field) Field {
 	return f
 }
 
-func NewLevel() Level {
+func NewLevel(caves []Cave) Level {
 	return Level{
-		Fields:     make([]Field, 8),
+		Caves:      caves,
 		Hourglass:  false,
 		FinalTurns: 3,
 	}
 }
 
-func (l Level) Cross(c Cave, x, y int) (Level, bool) {
-	if f, ok := l.getField(c, x, y); ok {
+func (l Level) Cross(cid int, x, y int) (Level, bool) {
+	if f, ok := l.getField(cid, x, y); ok {
 		if f.Crossed {
 			return l, false
 		}
@@ -77,30 +72,28 @@ func (l Level) Cross(c Cave, x, y int) (Level, bool) {
 	return l, true
 }
 
-func (l Level) getField(c Cave, x, y int) (Field, bool) {
-	for _, f := range l.Fields {
-		if groupMatch(f, c) && positionMatch(f, x, y) {
-			return f, true
+func (l Level) getField(cid int, x, y int) (Field, bool) {
+	for _, cave := range l.Caves {
+		if cave.Id == cid {
+			for _, f := range cave.Fields {
+				if positionMatch(f, x, y) {
+					return f, true
+				}
+			}
 		}
 	}
 	return Field{}, false
 }
 
 func (l Level) putField(pf Field) (Level, bool) {
-	for i, f := range l.Fields {
-		if groupMatch(f, *pf.Cave) && positionMatch(f, pf.Position.X, pf.Position.Y) {
-			l.Fields[i] = pf
+	cave := pf.Cave
+	for i, f := range cave.Fields {
+		if positionMatch(f, pf.Position.X, pf.Position.Y) {
+			cave.Fields[i] = pf
 			return l, true
 		}
 	}
 	return Level{}, false
-}
-
-func groupMatch(f Field, g Cave) bool {
-	if f.Cave == nil {
-		return false
-	}
-	return f.Cave.Position.X == g.Position.X && f.Cave.Position.X == g.Position.Y
 }
 
 func positionMatch(f Field, x, y int) bool {
@@ -108,9 +101,25 @@ func positionMatch(f Field, x, y int) bool {
 }
 
 func (l Level) GetNeigbors(f Field) []Field {
+	result := make([]Field, 0)
+	offsets := [2]int{-1, 1}
+
+	for _, offset := range offsets {
+		if nf, ok := l.getField(f.Cave.Id, f.Position.X+offset, f.Position.Y); ok {
+			result = append(result, nf)
+		}
+		if nf, ok := l.getField(f.Cave.Id, f.Position.X, f.Position.Y+offset); ok {
+			result = append(result, nf)
+		}
+	}
+
+	return result
+}
+
+func (l Level) GetNeigbors2(f Field) []Field {
+	result := make([]Field, 0)
 	x := f.Position.X
 	y := f.Position.Y
-	fmt.Println("NN")
 	for xOffset := -1; xOffset < 2; xOffset++ {
 		for yOffset := -1; yOffset < 2; yOffset++ {
 			if xOffset == 0 && yOffset == 0 {
@@ -121,20 +130,10 @@ func (l Level) GetNeigbors(f Field) []Field {
 			if nX < 0 || nY < 0 {
 				continue
 			}
-			if nf, ok := l.getField(*f.Cave, nX, nY); ok {
-				fmt.Println(nf)
+			if nf, ok := l.getField(f.Cave.Id, nX, nY); ok {
+				result = append(result, nf)
 			}
 		}
 	}
-	fmt.Println("NN")
-	return make([]Field, 1)
-}
-
-func parseCave(m map[string]any) game.Cave {
-	x := int(m["x"].(float64))
-	y := int(m["y"].(float64))
-	points := m["points"].(float64)
-	id := (x * 10) + y
-
-	return game.Cave{Id: id, Position: game.Coordinate{X: x, Y: y}, Points: int(points)}
+	return result
 }

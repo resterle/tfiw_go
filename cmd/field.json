@@ -1,73 +1,538 @@
-[
-    {
-        "x": 0,
-        "y": 0,
-        "points": 5,
-        "fields": [
-            {"x": 0, "y": 0, "tunnels": [], "mushroom": false, "acorn": true},
-            {"x": 1, "y": 0, "tunnels": [], "mushroom": false, "acorn": false},
-            {"x": 0, "y": 1, "tunnels": [], "mushroom": false, "acorn": false},
-            {"x": 1, "y": 1, "tunnels": [], "mushroom": false, "acorn": false},
-            {"x": 1, "y": 2, "tunnels": [], "mushroom": false, "acorn": false},
-            {"x": 2, "y": 2, "tunnels": [], "mushroom": false, "acorn": false},
-            {"x": 1, "y": 3, "tunnels": [{"cave_x": 0, "cave_y": 1, "x": 1, "y": 0}], "mushroom": false, "acorn": false},
-            {"x": 2, "y": 3, "tunnels": [], "mushroom": false, "acorn": false}
-        ]
-    },
-    {
-        "x": 1,
-        "y": 0,
-        "points": 6,
-        "fields": []
-    },
-    {
-        "x": 2,
-        "y": 0,
-        "points": 5,
-        "fields": []
-    },
-    {
-        "x": 0,
-        "y": 1,
-        "points": 7,
-        "fields": [
-            {"x": 0, "y": 0, "tunnels": [], "mushroom": false, "acorn": false},
-            {"x": 1, "y": 0, "tunnels": [], "mushroom": false, "acorn": false},
-            {"x": 0, "y": 1, "tunnels": [], "mushroom": false, "acorn": false},
-            {"x": 1, "y": 1, "tunnels": [], "mushroom": false, "acorn": false},
-            {"x": 2, "y": 1, "tunnels": [], "mushroom": false, "acorn": false},
-            {"x": 3, "y": 1, "tunnels": [], "mushroom": false, "acorn": false},
-            {"x": 0, "y": 2, "tunnels": [], "mushroom": true, "acorn": false},
-            {"x": 1, "y": 2, "tunnels": [], "mushroom": false, "acorn": false},
-            {"x": 2, "y": 2, "tunnels": [], "mushroom": false, "acorn": false},
-            {"x": 3, "y": 2, "tunnels": [], "mushroom": false, "acorn": false},
-            {"x": 1, "y": 3, "tunnels": [], "mushroom": false, "acorn": false},
-            {"x": 2, "y": 3, "tunnels": [], "mushroom": true, "acorn": false}
-
-        ]
-    },
-    {
-        "x": 1,
-        "y": 1,
-        "points": 6,
-        "fields": []
-    },
-    {
-        "x": 2,
-        "y": 1,
-        "points": 6,
-        "fields": []
-    },
-    {
-        "x": 0,
-        "y": 2,
-        "points": 6,
-        "fields": []
-    },
-    {
-        "x": 1,
-        "y": 2,
-        "points": 5,
-        "fields": []
-    }
-]
+{
+    "caves": [
+        {
+            "x": 0,
+            "y": 0,
+            "points": 5,
+            "fields": [
+                {
+                    "x": 0,
+                    "y": 0,
+                    "mushroom": false,
+                    "acorn": true
+                },
+                {
+                    "x": 1,
+                    "y": 0,
+                    "mushroom": false,
+                    "acorn": false
+                },
+                {
+                    "x": 0,
+                    "y": 1,
+                    "mushroom": false,
+                    "acorn": false
+                },
+                {
+                    "x": 1,
+                    "y": 1,
+                    "mushroom": false,
+                    "acorn": false
+                },
+                {
+                    "x": 1,
+                    "y": 2,
+                    "mushroom": false,
+                    "acorn": false
+                },
+                {
+                    "x": 2,
+                    "y": 2,
+                    "mushroom": false,
+                    "acorn": false
+                },
+                {
+                    "x": 1,
+                    "y": 3,
+                    "mushroom": false,
+                    "acorn": false
+                },
+                {
+                    "x": 2,
+                    "y": 3,
+                    "mushroom": false,
+                    "acorn": false
+                }
+            ]
+        },
+        {
+            "x": 1,
+            "y": 0,
+            "points": 6,
+            "fields": [
+                {
+                    "x": 0,
+                    "y": 0,
+                    "mushroom": false,
+                    "acorn": false
+                },
+                {
+                    "x": 1,
+                    "y": 0,
+                    "mushroom": false,
+                    "acorn": false
+                },
+                {
+                    "x": 2,
+                    "y": 0,
+                    "mushroom": false,
+                    "acorn": false
+                },
+                {
+                    "x": 3,
+                    "y": 0,
+                    "mushroom": false,
+                    "acorn": false
+                },
+                {
+                    "x": 1,
+                    "y": 1,
+                    "mushroom": false,
+                    "acorn": false
+                },
+                {
+                    "x": 2,
+                    "y": 1,
+                    "mushroom": false,
+                    "acorn": false
+                },
+                {
+                    "x": 3,
+                    "y": 1,
+                    "mushroom": false,
+                    "acorn": false
+                },
+                {
+                    "x": 1,
+                    "y": 2,
+                    "mushroom": true,
+                    "acorn": false
+                },
+                {
+                    "x": 2,
+                    "y": 2,
+                    "mushroom": false,
+                    "acorn": false
+                },
+                {
+                    "x": 3,
+                    "y": 2,
+                    "mushroom": false,
+                    "acorn": false
+                }
+            ]
+        },
+        {
+            "x": 2,
+            "y": 0,
+            "points": 5,
+            "fields": [
+                {
+                    "x": 0,
+                    "y": 0,
+                    "mushroom": false,
+                    "acorn": false
+                },
+                {
+                    "x": 1,
+                    "y": 0,
+                    "mushroom": false,
+                    "acorn": false
+                },
+                {
+                    "x": 0,
+                    "y": 2,
+                    "mushroom": false,
+                    "acorn": false
+                },
+                {
+                    "x": 1,
+                    "y": 2,
+                    "mushroom": false,
+                    "acorn": false
+                },
+                {
+                    "x": 0,
+                    "y": 3,
+                    "mushroom": false,
+                    "acorn": false
+                },
+                {
+                    "x": 1,
+                    "y": 3,
+                    "mushroom": false,
+                    "acorn": false
+                },
+                {
+                    "x": 0,
+                    "y": 4,
+                    "mushroom": false,
+                    "acorn": true
+                },
+                {
+                    "x": 1,
+                    "y": 4,
+                    "mushroom": false,
+                    "acorn": false
+                }
+            ]
+        },
+        {
+            "x": 0,
+            "y": 1,
+            "points": 7,
+            "fields": [
+                {
+                    "x": 0,
+                    "y": 0,
+                    "mushroom": false,
+                    "acorn": false
+                },
+                {
+                    "x": 1,
+                    "y": 0,
+                    "mushroom": false,
+                    "acorn": false
+                },
+                {
+                    "x": 0,
+                    "y": 1,
+                    "mushroom": false,
+                    "acorn": false
+                },
+                {
+                    "x": 1,
+                    "y": 1,
+                    "mushroom": false,
+                    "acorn": false
+                },
+                {
+                    "x": 2,
+                    "y": 1,
+                    "mushroom": false,
+                    "acorn": false
+                },
+                {
+                    "x": 3,
+                    "y": 1,
+                    "mushroom": false,
+                    "acorn": false
+                },
+                {
+                    "x": 0,
+                    "y": 2,
+                    "mushroom": true,
+                    "acorn": false
+                },
+                {
+                    "x": 1,
+                    "y": 2,
+                    "mushroom": false,
+                    "acorn": false
+                },
+                {
+                    "x": 2,
+                    "y": 2,
+                    "mushroom": false,
+                    "acorn": false
+                },
+                {
+                    "x": 3,
+                    "y": 2,
+                    "mushroom": false,
+                    "acorn": false
+                },
+                {
+                    "x": 1,
+                    "y": 3,
+                    "mushroom": false,
+                    "acorn": false
+                },
+                {
+                    "x": 2,
+                    "y": 3,
+                    "mushroom": true,
+                    "acorn": false
+                }
+            ]
+        },
+        {
+            "x": 1,
+            "y": 1,
+            "points": 6,
+            "fields": [
+                {
+                    "x": 0,
+                    "y": 0,
+                    "mushroom": false,
+                    "acorn": false
+                },
+                {
+                    "x": 1,
+                    "y": 0,
+                    "mushroom": false,
+                    "acorn": false
+                },
+                {
+                    "x": 2,
+                    "y": 0,
+                    "mushroom": false,
+                    "acorn": false
+                },
+                {
+                    "x": 1,
+                    "y": 1,
+                    "mushroom": false,
+                    "acorn": false
+                },
+                {
+                    "x": 2,
+                    "y": 1,
+                    "mushroom": false,
+                    "acorn": false
+                },
+                {
+                    "x": 3,
+                    "y": 1,
+                    "mushroom": true,
+                    "acorn": false
+                },
+                {
+                    "x": 1,
+                    "y": 2,
+                    "mushroom": false,
+                    "acorn": false
+                },
+                {
+                    "x": 2,
+                    "y": 2,
+                    "mushroom": false,
+                    "acorn": false
+                },
+                {
+                    "x": 1,
+                    "y": 3,
+                    "mushroom": false,
+                    "acorn": false
+                },
+                {
+                    "x": 2,
+                    "y": 3,
+                    "mushroom": false,
+                    "acorn": false
+                }
+            ]
+        },
+        {
+            "x": 2,
+            "y": 1,
+            "points": 6,
+            "fields": [
+                {
+                    "x": 1,
+                    "y": 0,
+                    "mushroom": false,
+                    "acorn": false
+                },
+                {
+                    "x": 1,
+                    "y": 1,
+                    "mushroom": false,
+                    "acorn": true
+                },
+                {
+                    "x": 0,
+                    "y": 2,
+                    "mushroom": false,
+                    "acorn": false
+                },
+                {
+                    "x": 1,
+                    "y": 2,
+                    "mushroom": false,
+                    "acorn": false
+                },
+                {
+                    "x": 0,
+                    "y": 3,
+                    "mushroom": false,
+                    "acorn": false
+                },
+                {
+                    "x": 0,
+                    "y": 3,
+                    "mushroom": false,
+                    "acorn": false
+                },
+                {
+                    "x": 1,
+                    "y": 4,
+                    "mushroom": false,
+                    "acorn": false
+                },
+                {
+                    "x": 1,
+                    "y": 4,
+                    "mushroom": false,
+                    "acorn": false
+                },
+                {
+                    "x": 1,
+                    "y": 5,
+                    "mushroom": false,
+                    "acorn": false
+                },
+                {
+                    "x": 1,
+                    "y": 6,
+                    "mushroom": true,
+                    "acorn": false
+                }
+            ]
+        },
+        {
+            "x": 0,
+            "y": 2,
+            "points": 6,
+            "fields": [
+                {
+                    "x": 1,
+                    "y": 0,
+                    "mushroom": false,
+                    "acorn": false
+                },
+                {
+                    "x": 2,
+                    "y": 0,
+                    "mushroom": false,
+                    "acorn": false
+                },
+                {
+                    "x": 3,
+                    "y": 0,
+                    "mushroom": false,
+                    "acorn": false
+                },
+                {
+                    "x": 0,
+                    "y": 1,
+                    "mushroom": true,
+                    "acorn": false
+                },
+                {
+                    "x": 1,
+                    "y": 1,
+                    "mushroom": false,
+                    "acorn": false
+                },
+                {
+                    "x": 2,
+                    "y": 1,
+                    "mushroom": false,
+                    "acorn": false
+                },
+                {
+                    "x": 3,
+                    "y": 1,
+                    "mushroom": false,
+                    "acorn": false
+                },
+                {
+                    "x": 0,
+                    "y": 2,
+                    "mushroom": false,
+                    "acorn": false
+                },
+                {
+                    "x": 1,
+                    "y": 2,
+                    "mushroom": false,
+                    "acorn": true
+                },
+                {
+                    "x": 2,
+                    "y": 2,
+                    "mushroom": false,
+                    "acorn": false
+                },
+                {
+                    "x": 3,
+                    "y": 2,
+                    "mushroom": false,
+                    "acorn": false
+                }
+            ]
+        },
+        {
+            "x": 1,
+            "y": 2,
+            "points": 5,
+            "fields": [
+                {
+                    "x": 0,
+                    "y": 0,
+                    "mushroom": false,
+                    "acorn": false
+                },
+                {
+                    "x": 1,
+                    "y": 0,
+                    "mushroom": false,
+                    "acorn": false
+                },
+                {
+                    "x": 1,
+                    "y": 1,
+                    "mushroom": false,
+                    "acorn": false
+                },
+                {
+                    "x": 0,
+                    "y": 2,
+                    "mushroom": false,
+                    "acorn": false
+                },
+                {
+                    "x": 1,
+                    "y": 2,
+                    "mushroom": false,
+                    "acorn": false
+                },
+                {
+                    "x": 2,
+                    "y": 2,
+                    "mushroom": false,
+                    "acorn": false
+                },
+                {
+                    "x": 0,
+                    "y": 3,
+                    "mushroom": false,
+                    "acorn": false
+                },
+                {
+                    "x": 1,
+                    "y": 3,
+                    "mushroom": true,
+                    "acorn": false
+                }
+            ]
+        }
+    ],
+    "tunnels": [
+        {
+            "from": {
+                "cave_x": 0,
+                "cave_y": 0,
+                "field_x": 1,
+                "field_y": 0
+            },
+            "to": {
+                "cave_x": 1,
+                "cave_y": 0,
+                "field_x": 0,
+                "field_y": 0
+            }
+        }
+    ]
+}

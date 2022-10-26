@@ -13,17 +13,10 @@ type CreateGameRequest struct {
 }
 
 func CreateGame(r *gin.Context) {
-	var newGame *game.Game
-	ok := false
-
 	var request CreateGameRequest
-	r.BindJSON(&request)
+	r.ShouldBindJSON(&request)
 
-	if playerName := request.Player; playerName == "" {
-		newGame, ok = game.CreateWithDefaultPlayer()
-	} else {
-		newGame, ok = game.CreateWithPlayer(playerName)
-	}
+	newGame, ok := createGame(request.Player)
 
 	if ok {
 		game.Put(*newGame)
@@ -33,5 +26,13 @@ func CreateGame(r *gin.Context) {
 		r.JSON(http.StatusOK, view)
 	} else {
 		r.Status(http.StatusInternalServerError)
+	}
+}
+
+func createGame(playerName string) (*game.Game, bool) {
+	if playerName == "" {
+		return game.CreateWithDefaultPlayer()
+	} else {
+		return game.CreateWithPlayer(playerName)
 	}
 }
