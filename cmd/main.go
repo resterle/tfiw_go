@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"net/http"
 
+	"github.com/resterle/tfiw_go/internal/core"
 	"github.com/resterle/tfiw_go/internal/core/level"
 	"go.lair.cx/monads/options"
 )
@@ -45,6 +46,19 @@ func main() {
 	opt = options.FlatMap(opt, bar)
 
 	fmt.Println(opt)
+
+	r, err := core.Multi[int, string](
+		core.Wrap(10),
+		core.Map2(func(i int) (int, error) { return i + 1, nil }),
+		core.Map2(func(i int) (string, error) { return fmt.Sprintf("well done %d", i), nil }),
+		core.Apply2(func(s string) error {
+			fmt.Println(s)
+			return nil
+		}),
+	).Unwrap()
+	fmt.Println(err)
+	fmt.Println(r)
+
 }
 
 func printField(f level.Field) {

@@ -5,69 +5,19 @@ import (
 	"errors"
 	"fmt"
 	"os"
+
+	"github.com/resterle/tfiw_go/internal/core"
 )
-
-type Option[T any] struct {
-	value T
-	err   error
-}
-
-func Wrap[T any](value T) Option[T] {
-	return Option[T]{
-		value: value,
-		err:   nil,
-	}
-}
-
-func (x Option[T]) Unwrap() (T, error) {
-	return x.value, x.err
-}
-
-func Map[T, U any](x Option[T], f func(T) (U, error)) Option[U] {
-	if x.err == nil {
-		r, err := f(x.value)
-		return Option[U]{
-			value: r,
-			err:   err,
-		}
-	}
-	return Option[U]{
-		err: x.err,
-	}
-}
-
-func MapS[T, U any](x Option[T], f func(T) U) Option[U] {
-	if x.err == nil {
-		r := f(x.value)
-		return Option[U]{
-			value: r,
-			err:   nil,
-		}
-	}
-	return Option[U]{
-		err: x.err,
-	}
-}
-
-func Apply[T any](x Option[T], f func(T) error) Option[T] {
-	if x.err == nil {
-		err := f(x.value)
-		return Option[T]{
-			value: x.value,
-			err:   err,
-		}
-	}
-	return x
-}
 
 func Parse() any {
 	m := read()
-	caves := Map(m, parseCaves)
-	level, err := MapS(caves, NewLevel).Unwrap()
+	caves := core.Map(m, parseCaves)
+	level, err := core.MapS(caves, NewLevel).Unwrap()
 
 	if err == nil {
 		return level
 	}
+	fmt.Printf("===> error: %s <===\n", err.Error())
 	return nil
 }
 
@@ -78,17 +28,21 @@ func parseCaves(m map[string]any) ([]Cave, error) {
 		return nil, errors.New("could not find key \"cave\"")
 	}
 	for _, c := range caveArray.([]any) {
-		r := parseCave(c.(map[string]any))
+		r, err := parseCave(c.(map[string]any))
+		if err != nil {
+			return result, err
+		}
 		result = append(result, r)
 	}
 	return result, nil
 }
 
-func read() Option[map[string]any] {
-	file := Wrap("cmd/field.json")
-	data := Map(file, os.ReadFile)
-	return Map(data, unmarshal)
-
+func read() core.Option[map[string]any] {
+	return core.Multi[string, map[string]any](
+		core.Wrap("cmd/field.json"),
+		core.Map2(os.ReadFile),
+		core.Map2(unmarshal),
+	)
 }
 
 func unmarshal(data []byte) (map[string]any, error) {
@@ -97,34 +51,72 @@ func unmarshal(data []byte) (map[string]any, error) {
 	return result, err
 }
 
-func parseCave(m map[string]any) Cave {
-	x := int(m["x"].(float64))
-	y := int(m["y"].(float64))
-	points := m["points"].(float64)
-	id := (x * 10) + y
+func parseCave(m map[string]any) (Cave, error) {
 
-	cave := Cave{Id: id, Position: Coordinate{X: x, Y: y}, Points: int(points)}
-	fmt.Println(m)
-	fieldArray := m["fields"].([]any)
+	wm := core.Wrap(m)
+	wm = core.Map(wm, as_int_func("x"))
+	wm = core.Map(wm, as_int_func("y"))
+	wm = core.Map(wm, as_int_func("points"))
 
-	fields := make([]Field, 0)
-	for _, f := range fieldArray {
-		field := parseField(&cave, f.(map[string]any))
-		fields = append(fields, field)
+	wc := core.MapS(wm, func(m map[string]any) Cave {
+		x := get_int(m, "x")
+		y := get_int(m, "y")
+		points := get_int(m, "points")
+		id := (x * 10) + y
+
+		return Cave{Id: id, Position: Coordinate{X: x, Y: y}, Points: int(points), Fields: make([]Field, 0)}
+	})
+
+	fa := m["fields"].([]any)
+	for _, f := range fa {
+		wc = core.Map(wc, func(cave Cave) (Cave, error) {
+			field, err := parseField(&cave, f.(map[string]any))
+			cave.Fields = append(cave.Fields, field)
+			return cave, err
+		})
 	}
-	cave.Fields = fields
-	return cave
+
+	return wc.Unwrap()
 }
 
-func parseField(cave *Cave, m map[string]any) Field {
-	x := int(m["x"].(float64))
-	y := int(m["y"].(float64))
-
-	return Field{
-		Cave:     cave,
-		Position: Coordinate{X: x, Y: y},
-		Acorn:    false,
-		Mushroom: false,
-		Crossed:  false,
+func maybe_as_int(m map[string]any, k string) (map[string]any, error) {
+	v, ok := m[k]
+	if ok {
+		m[k] = int(v.(float64))
+		return m, nil
 	}
+	return m, fmt.Errorf("key %s not found", k)
+}
+
+func as_int_func(key string) func(map[string]any) (map[string]any, error) {
+	return func(m map[string]any) (map[string]any, error) {
+		return maybe_as_int(m, key)
+	}
+}
+
+func get_int(m map[string]any, k string) int {
+	return m[k].(int)
+}
+
+func parseField(cave *Cave, m map[string]any) (Field, error) {
+
+	wm := core.Wrap(m)
+	wm = core.Map(wm, as_int_func("x"))
+	wm = core.Map(wm, as_int_func("y"))
+
+	m, err := wm.Unwrap()
+
+	if err == nil {
+		field := Field{
+			Cave:     cave,
+			Position: Coordinate{X: m["x"].(int), Y: m["y"].(int)},
+			Acorn:    false,
+			Mushroom: false,
+			Crossed:  false,
+		}
+		return field, nil
+	}
+
+	return Field{}, err
+
 }
